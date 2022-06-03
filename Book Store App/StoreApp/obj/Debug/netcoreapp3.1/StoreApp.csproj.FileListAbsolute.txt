@@ -1,0 +1,17 @@
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\bin\Debug\netcoreapp3.1\StoreApp.exe
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\bin\Debug\netcoreapp3.1\StoreApp.deps.json
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\bin\Debug\netcoreapp3.1\StoreApp.runtimeconfig.json
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\bin\Debug\netcoreapp3.1\StoreApp.runtimeconfig.dev.json
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\bin\Debug\netcoreapp3.1\StoreApp.dll
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\bin\Debug\netcoreapp3.1\StoreApp.pdb
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\bin\Debug\netcoreapp3.1\ClassLibrary.dll
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\bin\Debug\netcoreapp3.1\ClassLibrary.pdb
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\obj\Debug\netcoreapp3.1\StoreApp.csproj.AssemblyReference.cache
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\obj\Debug\netcoreapp3.1\StoreApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\obj\Debug\netcoreapp3.1\StoreApp.AssemblyInfoInputs.cache
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\obj\Debug\netcoreapp3.1\StoreApp.AssemblyInfo.cs
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\obj\Debug\netcoreapp3.1\StoreApp.csproj.CoreCompileInputs.cache
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\obj\Debug\netcoreapp3.1\StoreApp.csproj.CopyComplete
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\obj\Debug\netcoreapp3.1\StoreApp.dll
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\obj\Debug\netcoreapp3.1\StoreApp.pdb
+C:\Users\profe\Desktop\Abstrac-keyword-interface\Book Store App\StoreApp\obj\Debug\netcoreapp3.1\StoreApp.genruntimeconfig.cache
