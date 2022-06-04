@@ -7,6 +7,7 @@ namespace StoreApp
 {
     internal class Market : IStore
     {
+        public string Name { get; set; }
         private int _totalInCome=0;
         private Product[] _products=new Product[0];
         public Product[] Products

@@ -5,21 +5,25 @@ namespace StoreApp
 {
     internal class Program
     {
-        static Market Bravo = new Market();             //   Yeni market --------------------------------------------
+        static Market Market;             //   Yeni market --------------------------------------------
         static void Main(string[] args)
         {
+            Market bravo = new Market { Name = "Bravo"};
+            Market = bravo;
+
+
             int input=0;                                
             bool parsable;
             do
             {
-                Console.WriteLine("Proqrama xos geldiniz.");
+                Console.WriteLine($"{Market.Name}-ya xos geldiniz.");
                 Console.WriteLine("ProductLimiti daxil edin");
                 string inputStr = Console.ReadLine();
                 parsable=IsConvertToInt(inputStr,out input); //  ProductLimit reqem daxil edilmeyibse yeniden isteyen metod--
 
             } while (parsable==false);
 
-            Bravo.ProductLimit = input;
+            Market.ProductLimit = input;
 
             string select;                                // Istifadecinin secimleri -----------------------------------
             do
@@ -42,7 +46,7 @@ namespace StoreApp
                 case "1":
                     Product product = new Product();
                     AddProductInfo(product);              // Yeni mehsulun melumatlarini daxil etmek ucun metod
-                    Bravo.AddProduct(product);            // Melumatlar okeydirse mehsulu arraya elave eden metod
+                    Market.AddProduct(product);            // Melumatlar okeydirse mehsulu arraya elave eden metod
                     break;
 
                 case "2":
@@ -86,20 +90,20 @@ namespace StoreApp
 
         static void ShowInfo()
         {
-            for (int i = 0; i < Bravo.Products.Length; i++)
+            for (int i = 0; i < Market.Products.Length; i++)
             {
-                Product item = Bravo.Products[i];
+                Product item = Market.Products[i];
                 Console.WriteLine($"Adi-{item.Name} Qiymeti-{item.Price} AZN  Sayi-{item.Count} eded   Nomresi-{item.No}");
             }
         }
 
         static void SellWithProductNo()
         {
-            if (Bravo.Products.Length>0)
+            if (Market.Products.Length>0)
             {
                 Console.WriteLine("Mehsulun nomresini daxil edin");
                 string no = Console.ReadLine();
-                Bravo.SellProduct(no);
+                Market.SellProduct(no);
             }
             else
             {
