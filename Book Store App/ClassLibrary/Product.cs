@@ -6,10 +6,10 @@ namespace ClassLibrary
 {
     public class Product
     {
-        public string Name;
-        public string No;
-        public int Price;
-        public int Count;
+        public string Name { get; set; }
+        public string No { get; set; }
+        public int Price { get; set; }
+        public int Count { get; set; }
 
     }
 }

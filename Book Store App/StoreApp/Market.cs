@@ -57,14 +57,17 @@ namespace StoreApp
                     _totalInCome += _products[i].Price;
                     _products[i].Count--;
                     Console.WriteLine($"Mehsul satildi. Stokda {_products[i].Count} eded . Kassa - {_totalInCome} AZN");
+                    break;
                 }
                 else if (_products[i].No == no && _products[i].Count == 0)
                 {
                     Console.WriteLine("Mehsul stokda bitib");
+                    break;
                 }
                 else if (_products[i].No!=no)
                 {
                     Console.WriteLine("Mehsul satisda yoxdur.");
+                    break;
                 }
             }
         }
