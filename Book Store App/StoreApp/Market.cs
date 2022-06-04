@@ -10,11 +10,22 @@ namespace StoreApp
         public string Name { get; set; }
         private int _totalInCome=0;
         private Product[] _products=new Product[0];
+        private int _productLimit = 0;
         public Product[] Products
         {
             get { return _products; }
         }
-        public int ProductLimit { get; set; }
+        public int ProductLimit
+        {
+            get { return _productLimit; }
+            set
+            {
+                if (value >0)
+                {
+                    _productLimit = value;
+                }
+            }
+        }
 
         public int TotalIncome
         {

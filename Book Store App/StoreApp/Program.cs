@@ -44,9 +44,16 @@ namespace StoreApp
             switch (no)
             {
                 case "1":
-                    Product product = new Product();
-                    AddProductInfo(product);              // Yeni mehsulun melumatlarini daxil etmek ucun metod
-                    Market.AddProduct(product);            // Melumatlar okeydirse mehsulu arraya elave eden metod
+                    if (Market.ProductLimit==0 || Market.Products.Length == Market.ProductLimit)
+                    {
+                        Console.WriteLine("Erzaq elave etmek ucun limit yoxdur!!!!!!!!!!!!!");
+                    }
+                    else
+                    {
+                        Product product = new Product();       
+                        AddProductInfo(product);              // Yeni mehsulun melumatlarini daxil etmek ucun metod
+                        Market.AddProduct(product);           // Melumatlar okeydirse mehsulu arraya elave eden metod
+                    }
                     break;
 
                 case "2":
@@ -90,6 +97,10 @@ namespace StoreApp
 
         static void ShowInfo()
         {
+            if (Market.Products.Length==0)
+            {
+                Console.WriteLine("Markete erzaq elave olunmayib !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            }
             for (int i = 0; i < Market.Products.Length; i++)
             {
                 Product item = Market.Products[i];
@@ -107,7 +118,7 @@ namespace StoreApp
             }
             else
             {
-                Console.WriteLine("Evvelce bir mehsul elave edin !!!");
+                Console.WriteLine("Evvelce bir mehsul elave edin !!!!!!!!!!!!!!!!!!!!!!!!!");
             }
 
         }
@@ -130,7 +141,7 @@ namespace StoreApp
             {
                 Console.WriteLine("Product qiymetini daxil edin");
                 string priceStr = Console.ReadLine();
-                check = IsConvertToInt(priceStr, out price);
+                check = IsConvertToInt(priceStr, out price);               // Convert oluna bilmirse yeniden daxil etsin
             } while (check == false);
         }
         static void AddProductCount(out bool check,out int  count)
