@@ -1,4 +1,5 @@
 ﻿using ClassLibrary;
+using StoreApp.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,7 @@ namespace StoreApp
     internal class Market : IStore
     {
         public string Name { get; set; }
+
         private int _totalInCome=0;
         private Product[] _products=new Product[0];
         private int _productLimit = 0;
@@ -15,15 +17,21 @@ namespace StoreApp
         {
             get { return _products; }
         }
-        public int ProductLimit
+        public int ProductLimit                       
         {
             get { return _productLimit; }
             set
             {
-                if (value >0)
+                if (value < 0)
                 {
-                    _productLimit = value;
+                    throw new ProductLimitMistakeValueException("Product limit menfi eded ola bilmez");
                 }
+                if (value<_products.Length)
+                {
+                    throw new ProductLimitIsFilledException("Product limit mehsullarin sayindan az ola bilmez");
+                }
+                _productLimit = value;
+               
             }
         }
 
@@ -33,12 +41,21 @@ namespace StoreApp
         }
 
         public void AddProduct(Product product)
-        {   
-            if (_products.Length < ProductLimit && CheckProductNo(product))
-            {   
-                Array.Resize(ref _products, _products.Length + 1);
-                _products[_products.Length - 1] = product;
+        {
+            if (_products.Length >= ProductLimit)
+            {
+                throw new ProductLimitIsFilledException("Mehsul elave etmek ucun limit kifayet deyil");
             }
+            if (!CheckProductNo(product))
+            {
+                throw new ProductByNoException("Bu nomreli product artiq elave edilib");
+            }
+
+            Array.Resize(ref _products, _products.Length + 1);
+            _products[_products.Length - 1] = product;
+
+
+
         }
 
         public bool CheckProductNo(Product product)
@@ -60,26 +77,36 @@ namespace StoreApp
             }
         }
 
-        public void SellProduct(string no) //10,11,12
+        public void SellProduct(string no) 
         {
-            for (int i = 0; i < _products.Length; i++)
+          Product product = FindProductByNo(no);
+            if (product == null)
             {
-                if (_products[i].No == no && _products[i].Count>0)
-                {
-                    _totalInCome += _products[i].Price;
-                    _products[i].Count--;
-                    Console.WriteLine($"Mehsul satildi. Stokda {_products[i].Count} eded . Kassa - {_totalInCome} AZN");
-                    return;
-                }
-                else if (_products[i].No == no && _products[i].Count == 0)
-                {
-                    Console.WriteLine("Mehsul stokda bitib");
-                    return;
-                }
-                
+                throw new NoProductAtMarketException($"{no} nomreli mehsul tapilmadi");
             }
-            Console.WriteLine("Mehsul satisda yoxdur.");
-            return;
+            if (product.Count < 1)
+            {
+                throw new ProductHasNotStockException("Mehsul stokda bitmisdir!!");
+            }
+
+            _totalInCome+=product.Price;
+            product.Count--;
+
+
+        }
+
+        public Product FindProductByNo(string no)
+        {
+            Product product = null;
+
+            foreach (var item in _products)
+            {
+                if (item.No==no)
+                {
+                    product = item;
+                }
+            }
+            return product;
         }
     }
 }

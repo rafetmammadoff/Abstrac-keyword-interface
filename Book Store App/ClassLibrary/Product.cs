@@ -6,10 +6,22 @@ namespace ClassLibrary
 {
     public class Product
     {
-        public string Name { get; set; }
-        public string No { get; set; }
-        public int Price { get; set; }
-        public int Count { get; set; }
+        public Product()
+        {
+            _mainOrderNo++;
+            _orderNo = _mainOrderNo;
+        }
+        public string Name;
+        public string No;
+        public int Price;
+        public int Count;
+        static private int _mainOrderNo;
+        private int _orderNo;
+        public void ShowInfo()
+        {
+            
+            Console.WriteLine(value: $"Name-{Name} No-{No} Count-{Count} Price-{Price}");
+        }
 
     }
 }

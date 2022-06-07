@@ -1,0 +1,12 @@
+Yeni product elave etdikde count ve price deyerinin menfi olma ehtimalini nezere almamisdim.  _Duzeltdim
+
+Try catch ve try parse metodlarinda sehvlerim var idi  -Duzeltdim
+
+
+Custom Exception-lar yaradib hamisini uygun yerlere qoydum
+
+Elave lazimsiz metodlar yazmisdim onlari yigisdirdim
+
+
+Yeni menyu yaratdim ProductLimiti  deyismek ucun. Evvelce admin parolu isteyir daxil edilse eger
+ menfi ve productlarin sayindan az olmazsa set edir

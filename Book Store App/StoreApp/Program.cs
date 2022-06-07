@@ -1,17 +1,16 @@
 ﻿using ClassLibrary;
+using StoreApp.Exceptions;
 using System;
 
 namespace StoreApp
 {
     internal class Program
     {
-        static Market Market;             //   Yeni market --------------------------------------------
+        static Market Market;            
         static void Main(string[] args)
         {
             Market bravo = new Market { Name = "Bravo"};
             Market = bravo;
-
-
             int input=0;                                
             bool parsable;
             do
@@ -19,22 +18,23 @@ namespace StoreApp
                 Console.WriteLine($"{Market.Name}-ya xos geldiniz.");
                 Console.WriteLine("ProductLimiti daxil edin");
                 string inputStr = Console.ReadLine();
-                parsable=IsConvertToInt(inputStr,out input); //  ProductLimit reqem daxil edilmeyibse yeniden isteyen metod--
+                parsable=int.TryParse(inputStr,out input); 
 
-            } while (parsable==false);
+            } while (parsable==false || input  < 0);
 
             Market.ProductLimit = input;
 
-            string select;                                // Istifadecinin secimleri -----------------------------------
+            string select;                              
             do
             {
                 Console.WriteLine("1-Mehsul elave edin");
                 Console.WriteLine("2-Mehsul satin");
                 Console.WriteLine("3-Mehsullara baxin");
                 Console.WriteLine("4-Proqramdan cixin");
+                Console.WriteLine("5-ProductLimiti deyisin");
                 select = Console.ReadLine();
 
-                SelectedProses(select);                   // Secime uygun emeliyati yerine yetiren metod ----------------
+                SelectedProses(select);                  
                 
             } while (select != "4");
         }
@@ -44,114 +44,214 @@ namespace StoreApp
             switch (no)
             {
                 case "1":
-                    if (Market.ProductLimit==0 || Market.Products.Length == Market.ProductLimit)
-                    {
-                        Console.WriteLine("Erzaq elave etmek ucun limit yoxdur!!!!!!!!!!!!!");
-                    }
-                    else
-                    {
-                        Product product = new Product();       
-                        AddProductInfo(product);              // Yeni mehsulun melumatlarini daxil etmek ucun metod
-                        Market.AddProduct(product);           // Melumatlar okeydirse mehsulu arraya elave eden metod
-                    }
+                    AddedProduct();
                     break;
 
                 case "2":
-                    SellWithProductNo();                  // Mehsul nomresine uygun mehsul vardirsa onu satan metod
+                    SelledProduct();
                     break;
 
                 case "3":
-                    ShowInfo();                           // Butun mehsullar haqqinda melumatlari gosteren metod
+                    ShowedProduct();                   
                     break;
-
                 case "4":
                     break;
-
+                case "5":
+                    ChangeProductLimit();
+                    break;
                 default:
                     Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Secim duzgun deyil !!!!!!!!!!!!!!!!!!!!!!!!!!");
                     break;
             }
         }
 
-        static void AddProductInfo(Product product)
+        static void ChangeProductLimit()
+        {
+            try
+            {
+                string password;
+                do
+                {
+                    Console.WriteLine("Admin parolu daxil edin : ");
+                    password = Console.ReadLine();
+                } while (password != "admin");
+                int input = 0;
+                bool parsable;
+                do
+                {
+
+                    Console.WriteLine("ProductLimiti daxil edin");
+                    string inputStr = Console.ReadLine();
+                    parsable = int.TryParse(inputStr, out input);
+
+                } while (parsable == false);
+                Market.ProductLimit = input;
+            }
+            catch (ProductLimitMistakeValueException exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+            catch (ProductLimitIsFilledException exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("Bilinmedik bir xeta bas verdi");
+            }
+        }
+        static Product GetProductByInfo()
         {
             
             Console.WriteLine("Product adini daxil edin");
-            product.Name = Console.ReadLine();
+            string name = Console.ReadLine();
 
             Console.WriteLine("Product nomresini daxil edin");
-            product.No = Console.ReadLine();
+            string no = Console.ReadLine();
 
-            bool check;
-            int price=0;
-            AddProductPrice(out check,out price);       //Eger price deyeri reqem daxil edilmeyibse yeniden isteyen metod
-            product.Price=price;
-            
+            int price=AddProductPrice();
+            int count=AddProductCount();
 
-            int count=0;
-            AddProductCount(out check,out count);      // Eger count deyeri reqem daxil edilmeyibse yeniden isteyen metod
+            Product product = new Product();
+            product.Name = name;
+            product.Price = price;
             product.Count = count;
-
-
+            product.No=no;
+            return product;
         }
 
-        static void ShowInfo()
-        {
-            if (Market.Products.Length==0)
-            {
-                Console.WriteLine("Markete erzaq elave olunmayib !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            }
-            for (int i = 0; i < Market.Products.Length; i++)
-            {
-                Product item = Market.Products[i];
-                Console.WriteLine($"Adi-{item.Name} Qiymeti-{item.Price} AZN  Sayi-{item.Count} eded   Nomresi-{item.No}");
-            }
-        }
+        
 
         static void SellWithProductNo()
         {
-            if (Market.Products.Length>0)
-            {
                 Console.WriteLine("Mehsulun nomresini daxil edin");
                 string no = Console.ReadLine();
                 Market.SellProduct(no);
-            }
-            else
-            {
-                Console.WriteLine("Evvelce bir mehsul elave edin !!!!!!!!!!!!!!!!!!!!!!!!!");
-            }
-
         }
 
-        static bool IsConvertToInt(string numStr,out int convertDigit)
+        static int AddProductPrice()
         {
-            bool check;
-
-            check = int.TryParse(numStr, out convertDigit);
-            if (check == false)
-            {
-                Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Reqem daxil edilmeyib !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            }
-            return check;
-        }
-
-        static void AddProductPrice(out bool check ,out int price)
-        {
+            int price;
+            string priceStr;
             do
             {
                 Console.WriteLine("Product qiymetini daxil edin");
-                string priceStr = Console.ReadLine();
-                check = IsConvertToInt(priceStr, out price);               // Convert oluna bilmirse yeniden daxil etsin
-            } while (check == false);
+                priceStr = Console.ReadLine();
+            } while (!int.TryParse(priceStr, out price) || price<0);
+            return price;
         }
-        static void AddProductCount(out bool check,out int  count)
+        static int AddProductCount()
         {
+            int count;
+            string priceStr;
             do
             {
                 Console.WriteLine("Product sayini daxil edin");
-                string countStr = Console.ReadLine();
-                check = IsConvertToInt(countStr, out count);
-            } while (check == false);
+                priceStr = Console.ReadLine();
+            } while (!int.TryParse(priceStr, out count) || count < 0);
+
+            return count;
         }
-    }
+
+
+        static void AddProductAtMarket(Market market)
+        {
+            if (market.ProductLimit==0) 
+                throw new ProductLimitIsFilledException("Elave etmek ucun Limit yoxdur");
+            try
+            {
+                Product product = GetProductByInfo();
+                Market.AddProduct(product);
+            }
+            catch (ProductByNoException exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+            catch (ProductLimitIsFilledException exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Bilinmedik bir xeta bas verdi");
+            }
+        }
+
+        static void SellProductFromMarket(Market market)
+        {
+            if (market.Products.Length == 0)
+            {
+                throw new MarketFullEmptyException("Marketde mehsul yoxdur");
+            }
+            try
+            {
+                SellWithProductNo();
+            }
+            catch (NoProductAtMarketException exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+            catch (ProductHasNotStockException exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("Bilinmedik bir xeta bas verdi");
+            }
+        }
+
+        static void ShowInfo(Market market)
+        {
+            if (Market.Products.Length==0)
+            {
+                throw new MarketFullEmptyException("Gosterilecek mehsul yoxdur");
+            }
+            foreach (var item in market.Products)
+            {
+                item.ShowInfo();
+            }
+        }
+        static void AddedProduct()
+        {
+            try
+            {
+                AddProductAtMarket(Market);
+            }
+            catch (ProductLimitIsFilledException exp)
+            {
+
+                Console.WriteLine(exp.Message);
+            }
+        }
+
+        static void SelledProduct()
+        {
+            try
+            {
+                SellProductFromMarket(Market);
+            }
+            catch (MarketFullEmptyException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        static void ShowedProduct()
+        {
+            try
+            {
+                ShowInfo(Market);
+            }
+            catch (MarketFullEmptyException exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+            catch (Exception)
+            {
+
+                Console.WriteLine("Bilinmedik bir xeta bas verdi");
+            }
+        }
+    } 
 }
